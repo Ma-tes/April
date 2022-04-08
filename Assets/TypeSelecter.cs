@@ -16,8 +16,7 @@ namespace Assets.Scripts
 
         public TypeSelecter(Type type) 
         {
-            if (type is T)
-                objectType = type;
+            objectType = type;
             TypeName = type.Name;
         }
     }

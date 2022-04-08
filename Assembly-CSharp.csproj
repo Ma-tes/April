@@ -60,6 +60,7 @@
     <Compile Include="Assets\Scripts\EntityManager.cs" />
     <Compile Include="Assets\TypeSelecter.cs" />
     <Compile Include="Assets\Scripts\PlayerEntity.cs" />
+    <Compile Include="Assets\Scripts\EntityManagerEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

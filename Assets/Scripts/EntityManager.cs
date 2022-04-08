@@ -8,6 +8,10 @@ namespace Assets.Scripts
 {
     public class EntityManager : MonoBehaviour
     {
-        public TypeSelecter<IEntity>[] typeSelecter = new TypeSelecter<IEntity>[] {new TypeSelecter<IEntity>(typeof(PlayerEntity) )};
+        public TypeSelecter<IEntity>[] TypeSelecter = new TypeSelecter<IEntity>[] {new TypeSelecter<IEntity>(typeof(PlayerEntity) )};
+
+        public int Indexer;
+
+        public GameObject GameObject;
     }
 } 

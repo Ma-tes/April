@@ -9,11 +9,10 @@ namespace Assets.Scripts
 {
     public interface IEntity
     {
-        [SerializeField]
         public string Name { get; }
 
-        [SerializeField]
         public uint Health { get; set; }
+        public float Speed { get; set; }
 
         public Vector3 Position { get; set; }
     }
