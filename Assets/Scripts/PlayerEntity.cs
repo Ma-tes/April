@@ -31,6 +31,12 @@ namespace Assets.Scripts
 
         private int pathIndexer = 0;
 
+        private int futureStep { get; set; } = 0;
+
+        private float lastRotaionIndex = 1;
+
+        private float mouseAcceleration { get; set; }
+
         public void Start()
         {
             cameraPointer = new CameraPointer(ViewCamera, 3);
@@ -38,6 +44,10 @@ namespace Assets.Scripts
 
         public void Update()
         {
+            var xAxis = Input.GetAxis("Mouse X");
+            var yAxis = Input.GetAxis("Mouse Y");
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
             //ViewCamera.transform.position += CalculateCameraPosition(new Vector3(25, 0, 25));
             cameraPointer.ValidMoveablePoints = cameraPointer.GetValidPoints(this.gameObject).ToArray();
             for (int i = 0; i < cameraPointer.ValidMoveablePoints.Length - 1; i++)
@@ -45,11 +55,24 @@ namespace Assets.Scripts
                 Debug.DrawLine(cameraPointer.ValidMoveablePoints[i], cameraPointer.ValidMoveablePoints[i + 1], Color.red);
                 Debug.Log(cameraPointer.ValidMoveablePoints[i].ToString());
             }
-            if (ViewCamera.gameObject.transform.position.Equals(cameraPointer.ValidMoveablePoints[pathIndexer]))
-                pathIndexer = pathIndexer + 1 == cameraPointer.ValidMoveablePoints.Length ? 0 : pathIndexer + 1;
-            else
-                ViewCamera.gameObject.transform.position = Vector3.MoveTowards(ViewCamera.gameObject.transform.position, cameraPointer.ValidMoveablePoints[pathIndexer], Speed * Time.deltaTime);
-            ViewCamera.gameObject.transform.rotation = Quaternion.LookRotation(-ViewCamera.gameObject.transform.position, this.gameObject.transform.position);
+            if (pathIndexer == futureStep || ((ViewCamera.gameObject.transform.position.Equals(cameraPointer.ValidMoveablePoints[pathIndexer])) && xAxis != 0))
+            {
+                float difference = (xAxis);
+                float differencePointer = (Mathf.Abs(difference) / difference);
+                int differenceSquared = (pathIndexer + ((int)differencePointer));
+                futureStep = pathIndexer + ((int)(difference) * 100);
+                pathIndexer = differenceSquared >= cameraPointer.ValidMoveablePoints.Length || differenceSquared <= -1 ? (cameraPointer.ValidMoveablePoints.Length - Math.Abs(differenceSquared)) : differenceSquared;
+            }
+            else 
+            {
+                ViewCamera.gameObject.transform.position = Vector3.MoveTowards(ViewCamera.gameObject.transform.position, cameraPointer.ValidMoveablePoints[pathIndexer], (Math.Abs(mouseAcceleration) * 10000) * Time.deltaTime);
+            }
+            mouseAcceleration = xAxis;
+            var cameraRotation = Quaternion.LookRotation(this.gameObject.transform.position - ViewCamera.gameObject.transform.position);
+            float rotationIndex = (1f * Time.deltaTime);
+            ViewCamera.gameObject.transform.rotation = Quaternion.Lerp(cameraRotation, this.gameObject.transform.rotation, (1f * Time.deltaTime) * lastRotaionIndex);
+            lastRotaionIndex = rotationIndex;
+            //ViewCamera.gameObject.transform.rotation = Quaternion.FromToRotation(ViewCamera.gameObject.transform.position, this.gameObject.transform.position);
         }
     }
 }

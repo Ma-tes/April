@@ -52,7 +52,7 @@ namespace Assets.Scripts
                 {
                     pointAxis[0] += ((j) * (moveCombinations[i].x)) / dotProduct;
                     pointAxis[1] += ((j) * (moveCombinations[i].z)) / dotProduct;
-                    yield return new Vector3((@object.gameObject.transform.position.x + offset) + pointAxis[0], @object.gameObject.transform.position.y, (@object.gameObject.transform.position.z - offset) + pointAxis[1]);
+                    yield return new Vector3(((@object.gameObject.transform.position.x - (offset)) - @object.gameObject.transform.localScale.x) + pointAxis[0], @object.gameObject.transform.position.y, (@object.gameObject.transform.position.z - (offset)) + pointAxis[1]);
                 }
             }
         }
