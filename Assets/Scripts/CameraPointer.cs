@@ -42,7 +42,7 @@ namespace Assets.Scripts
 
         public IEnumerable<Vector3> GetValidPoints(GameObject @object) 
         {
-            Vector3[] moveCombinations = CalculateCombinations(new Vector3[] { new Vector3(-1, 0, 1) }); // It will be something like [1, 1] [1, -1] [-1, 1] [-1, -1]
+            Vector3[] moveCombinations = CalculateCombinations(new Vector3[] { new Vector3(-1, 0, 1)}); // It will be something like [1, 1] [1, -1] [-1, 1] [-1, -1]
             float[] pointAxis = new float[2] {0, offset };
             for (int i = 0; i < moveCombinations.Length; i++)
             {
