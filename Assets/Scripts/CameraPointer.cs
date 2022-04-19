@@ -40,20 +40,22 @@ namespace Assets.Scripts
             return combinations;
         }
 
-        public IEnumerable<Vector3> GetValidPoints(GameObject @object) 
+        public IEnumerable<Vector3> GetValidPoints(GameObject @object, float lineLength, float yAxis = 0) 
         {
             Vector3[] moveCombinations = CalculateCombinations(new Vector3[] { new Vector3(-1, 0, 1)}); // It will be something like [1, 1] [1, -1] [-1, 1] [-1, -1]
-            float[] pointAxis = new float[2] {0, offset };
+            Vector3 lastPoint = new Vector3();
             for (int i = 0; i < moveCombinations.Length; i++)
             {
-                int scaler = 3;
-                float dotProduct = ((offset * scaler) / offset) * scaler;
-                for (int j = 0; j < offset * scaler; j++)
+                int scaler = 25;
+                float dotProduct = (lineLength / offset);
+                float[] pointAxis = new float[2] {0, 0};
+                for (int j = 0; j < dotProduct; j++)
                 {
-                    pointAxis[0] += ((j) * (moveCombinations[i].x)) / dotProduct;
-                    pointAxis[1] += ((j) * (moveCombinations[i].z)) / dotProduct;
-                    yield return new Vector3(((@object.gameObject.transform.position.x - (offset)) - @object.gameObject.transform.localScale.x) + pointAxis[0], @object.gameObject.transform.position.y, (@object.gameObject.transform.position.z - (offset)) + pointAxis[1]);
+                    pointAxis[0] = lastPoint.x + ((j) * (moveCombinations[i].x * (offset)));
+                    pointAxis[1] = lastPoint.z + ((j) * (moveCombinations[i].z * (offset)));
+                    yield return new Vector3(((@object.gameObject.transform.position.x) - ((lineLength - (@object.gameObject.transform.localScale.x / 2)))) + pointAxis[0], @object.gameObject.transform.position.y + yAxis, (@object.gameObject.transform.position.z) + pointAxis[1]);
                 }
+                lastPoint = new Vector3(pointAxis[0], 0, pointAxis[1]);
             }
         }
     }

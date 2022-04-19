@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -30,65 +32,67 @@ namespace Assets.Scripts
 
         private CameraPointer cameraPointer;
 
-        private int pathIndexer = 0;
-
-        private int futureStep { get; set; } = 0;
-
         private float lastRotaionIndex = 1;
-
-        private float mouseAcceleration { get; set; } = 1;
 
         private KeyCode lastKey { get; set; }
 
+        private int lastIndexer { get; set; }
+
+        private int pathIndexer { get; set; } = 0;
+
+        private float stepPoint = 0;
 
         public void Start()
         {
-            cameraPointer = new CameraPointer(ViewCamera, 3);
+            cameraPointer = new CameraPointer(ViewCamera, 0.5f);
             movementHelper.MoveableObject = this.gameObject;
             movementHelper.objectCamera = ViewCamera;
         }
 
-        public void LateUpdate()
+        public async void LateUpdate()
         {
-            if (Input.GetKeyDown(lastKey) == false) 
-            {
-            }
+             if (Input.GetKeyDown(lastKey) == false) 
+             {
+             }
 
-            var xAxis = Input.GetAxis("Mouse X");
-            var yAxis = Input.GetAxis("Mouse Y");
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            //ViewCamera.transform.position += CalculateCameraPosition(new Vector3(25, 0, 25));
-            cameraPointer.ValidMoveablePoints = cameraPointer.GetValidPoints(this.gameObject).ToArray();
-            for (int i = 0; i < cameraPointer.ValidMoveablePoints.Length - 1; i++)
+             var xAxis = Input.GetAxis("Mouse X");
+             var yAxis = Input.GetAxis("Mouse Y");
+             Cursor.lockState = CursorLockMode.Locked;
+             Cursor.visible = false;
+             cameraPointer.ValidMoveablePoints = cameraPointer.GetValidPoints(this.gameObject, 5).ToArray();
+             Debug.Log(cameraPointer.ValidMoveablePoints.Length);
+             for (int i = 0; i < cameraPointer.ValidMoveablePoints.Length - 1; i++)
+             {
+                 Debug.DrawLine(cameraPointer.ValidMoveablePoints[i], cameraPointer.ValidMoveablePoints[i + 1], Color.red);
+                 //Debug.Log(cameraPointer.ValidMoveablePoints[i].ToString());
+             }
+            if (((int)CalculateIndexer(xAxis) == lastIndexer && Mathf.Abs(stepPoint) < 1))
             {
-                Debug.DrawLine(cameraPointer.ValidMoveablePoints[i], cameraPointer.ValidMoveablePoints[i + 1], Color.red);
-                //Debug.Log(cameraPointer.ValidMoveablePoints[i].ToString());
-            }
-            if (futureStep == 0)
-            {
-                if (xAxis != 0) 
+                float mouseSensivity = xAxis; //TODO: multiply by real mouse sensivity and virtual in once
+                int[] pointIndexers = new int[]
                 {
-                    float difference = xAxis;
-                    float differencePointer = CalculateIndexer(difference);
-                    mouseAcceleration = difference;
-                    futureStep = (((((int)differencePointer) * ((int)Mathf.Abs((1 * differencePointer) + mouseAcceleration)))));
-                }
+                    (int)CalculateIndexer(cameraPointer.ValidMoveablePoints[pathIndexer].x),
+                    (int)CalculateIndexer(cameraPointer.ValidMoveablePoints[pathIndexer].z),
+                };
+                Vector3 difference = ViewCamera.gameObject.transform.position - cameraPointer.ValidMoveablePoints[pathIndexer];
+                Vector3 stepPosition = new Vector3(difference.x * (Math.Abs(mouseSensivity) * -1), 0, difference.z * (Math.Abs(mouseSensivity) * -1));
+                stepPoint += mouseSensivity;
+                ViewCamera.gameObject.transform.position = Vector3.MoveTowards(ViewCamera.gameObject.transform.position, ViewCamera.gameObject.transform.position + stepPosition, 1f);
+                Debug.Log($"mouseSensivity: {mouseSensivity} point[0]: {pointIndexers[0]} point[1]: {pointIndexers[1]} stepPoint: {stepPoint} stepPosition: {stepPosition} pathIndexer: {pathIndexer}");
             }
             else 
             {
-                float pointer = CalculateIndexer(futureStep);
-                int futureIndexSquared = pathIndexer + (int)pointer;
-                pathIndexer = futureIndexSquared >= cameraPointer.ValidMoveablePoints.Length || futureIndexSquared <= -1 ? (cameraPointer.ValidMoveablePoints.Length - Math.Abs(futureIndexSquared)) : futureIndexSquared;
-                futureStep = futureStep + ((int)pointer * -1);
+                int pointer = xAxis != 0 ? (int)CalculateIndexer(xAxis) : 0;
+                int cameraPointsLength = cameraPointer.ValidMoveablePoints.Length;
+                pathIndexer = (pathIndexer + pointer) >= cameraPointsLength || (pathIndexer + pointer) < 0 ? cameraPointsLength - Math.Abs(pathIndexer + pointer) : (pathIndexer + pointer);
+                stepPoint = 0;
+                lastIndexer = (int)pointer;
             }
-                ViewCamera.gameObject.transform.position = Vector3.MoveTowards(ViewCamera.gameObject.transform.position, cameraPointer.ValidMoveablePoints[pathIndexer], 0.83f + (((Math.Abs(xAxis * (Time.deltaTime + Math.Abs(mouseAcceleration)))))));
-            //Debug.Log($"xDifference: {xAxis} mouseAcceleration: {mouseAcceleration} futureStep: {futureStep} pathIndexer: {pathIndexer}");
-            var cameraRotation = Quaternion.LookRotation(this.gameObject.transform.position - ViewCamera.gameObject.transform.position);
-            float rotationIndex = (1f * Time.deltaTime);
-            ViewCamera.gameObject.transform.rotation = Quaternion.Lerp(cameraRotation, this.gameObject.transform.rotation, (1f * Time.deltaTime) * lastRotaionIndex);
-            lastRotaionIndex = rotationIndex;
-            //ViewCamera.gameObject.transform.rotation = Quaternion.FromToRotation(ViewCamera.gameObject.transform.position, this.gameObject.transform.position);
+             //Camera rotation
+             var cameraRotation = Quaternion.LookRotation(this.gameObject.transform.position - ViewCamera.gameObject.transform.position);
+             float rotationIndex = (1f * Time.deltaTime);
+             ViewCamera.gameObject.transform.rotation = Quaternion.Lerp(cameraRotation, this.gameObject.transform.rotation, (1f * Time.deltaTime) * lastRotaionIndex);
+             lastRotaionIndex = rotationIndex;
         }
         public float CalculateIndexer(float value) => (Mathf.Abs(value) / value);
     }

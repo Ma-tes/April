@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -26,6 +23,9 @@ namespace Assets.Scripts
         public float CurrentSpeed;
 
         [SerializeField]
+        public float RotationSpeed;
+
+        [SerializeField]
         public float MaxSpeed;
 
         public List<AnimationSelecter<float, Animator>> Animations = new List<AnimationSelecter<float, Animator>>();
@@ -33,8 +33,6 @@ namespace Assets.Scripts
         public IEnumerable<Direction> CurrentDirection { get; set; }
 
         private IEnumerable<Direction> lastDirection { get; set; }
-
-        private KeyCode lastKey { get; set; }
 
         public void Update()
         {
@@ -45,18 +43,20 @@ namespace Assets.Scripts
                new KeyValuePair<KeyCode, Direction>(KeyCode.A, Direction.WEST),
                new KeyValuePair<KeyCode, Direction>(KeyCode.D, Direction.EAST),
             });
+            //Debug.Log($"{CurrentDirection.Count()}");
+            CurrentSpeed = CurrentDirection.Count() != 0 ? CurrentSpeed + (((MaxSpeed - CurrentSpeed) / 10) * Time.deltaTime) : ((CurrentSpeed - ((CurrentSpeed /  2)) * (Time.deltaTime * 10)));
             foreach (Direction direction in CurrentDirection) 
             {
-                if (direction != Direction.NONE) 
+                if (direction != Direction.NONE) //For now it's redudant
                 {
                     var yAngle = objectCamera.transform.rotation.eulerAngles.y >= 180 ? objectCamera.transform.rotation.eulerAngles.y - 360 : objectCamera.transform.rotation.eulerAngles.y;
                     var cameraRotation = Quaternion.Euler(0, yAngle - (float)direction, 0);
-                    Debug.Log($"current: {direction}");
+                    //Debug.Log($"current: {direction}");
                     if(lastDirection != CurrentDirection)
-                        MoveableObject.transform.rotation = Quaternion.Lerp(MoveableObject.gameObject.transform.rotation, cameraRotation, 5f * Time.deltaTime);
-                    MoveableObject.transform.position += MoveableObject.transform.forward * (CurrentSpeed * Time.deltaTime);
+                        MoveableObject.transform.rotation = Quaternion.Lerp(MoveableObject.gameObject.transform.rotation, cameraRotation, RotationSpeed * Time.deltaTime);
                 }
             }
+            MoveableObject.transform.position += MoveableObject.transform.forward * (CurrentSpeed * Time.deltaTime);
             lastDirection = CurrentDirection;
         }
 
@@ -66,7 +66,6 @@ namespace Assets.Scripts
             {
                 if (Input.GetKey(keyValues[i].Key)) 
                 {
-                    lastKey = keyValues[i].Key;
                     yield return keyValues[i].Value;
                 }
             }
