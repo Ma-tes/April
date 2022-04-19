@@ -49,23 +49,24 @@ namespace Assets.Scripts
             movementHelper.objectCamera = ViewCamera;
         }
 
-        public async void LateUpdate()
+        public void Update()
         {
              if (Input.GetKeyDown(lastKey) == false) 
              {
              }
 
              var xAxis = Input.GetAxis("Mouse X");
-             var yAxis = Input.GetAxis("Mouse Y");
              Cursor.lockState = CursorLockMode.Locked;
              Cursor.visible = false;
-             cameraPointer.ValidMoveablePoints = cameraPointer.GetValidPoints(this.gameObject, 5).ToArray();
+             cameraPointer.ValidMoveablePoints = cameraPointer.GetValidPoints(this.gameObject, lineLength: 5, yAxis: 2).ToArray();
              Debug.Log(cameraPointer.ValidMoveablePoints.Length);
              for (int i = 0; i < cameraPointer.ValidMoveablePoints.Length - 1; i++)
              {
                  Debug.DrawLine(cameraPointer.ValidMoveablePoints[i], cameraPointer.ValidMoveablePoints[i + 1], Color.red);
                  //Debug.Log(cameraPointer.ValidMoveablePoints[i].ToString());
              }
+            Vector3 difference = ViewCamera.gameObject.transform.position - cameraPointer.ValidMoveablePoints[pathIndexer];
+            Vector3 stepPosition = -difference;
             if (((int)CalculateIndexer(xAxis) == lastIndexer && Mathf.Abs(stepPoint) < 1))
             {
                 float mouseSensivity = xAxis; //TODO: multiply by real mouse sensivity and virtual in once
@@ -74,10 +75,8 @@ namespace Assets.Scripts
                     (int)CalculateIndexer(cameraPointer.ValidMoveablePoints[pathIndexer].x),
                     (int)CalculateIndexer(cameraPointer.ValidMoveablePoints[pathIndexer].z),
                 };
-                Vector3 difference = ViewCamera.gameObject.transform.position - cameraPointer.ValidMoveablePoints[pathIndexer];
-                Vector3 stepPosition = new Vector3(difference.x * (Math.Abs(mouseSensivity) * -1), 0, difference.z * (Math.Abs(mouseSensivity) * -1));
+                stepPosition = new Vector3(difference.x * (Math.Abs(mouseSensivity) * -1), -difference.y, difference.z * (Math.Abs(mouseSensivity) * -1));
                 stepPoint += mouseSensivity;
-                ViewCamera.gameObject.transform.position = Vector3.MoveTowards(ViewCamera.gameObject.transform.position, ViewCamera.gameObject.transform.position + stepPosition, 1f);
                 Debug.Log($"mouseSensivity: {mouseSensivity} point[0]: {pointIndexers[0]} point[1]: {pointIndexers[1]} stepPoint: {stepPoint} stepPosition: {stepPosition} pathIndexer: {pathIndexer}");
             }
             else 
@@ -88,6 +87,7 @@ namespace Assets.Scripts
                 stepPoint = 0;
                 lastIndexer = (int)pointer;
             }
+                ViewCamera.gameObject.transform.position = Vector3.MoveTowards(ViewCamera.gameObject.transform.position, ViewCamera.gameObject.transform.position + stepPosition, 1f);
              //Camera rotation
              var cameraRotation = Quaternion.LookRotation(this.gameObject.transform.position - ViewCamera.gameObject.transform.position);
              float rotationIndex = (1f * Time.deltaTime);
