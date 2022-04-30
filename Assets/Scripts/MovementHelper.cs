@@ -43,7 +43,6 @@ namespace Assets.Scripts
                new KeyValuePair<KeyCode, Direction>(KeyCode.A, Direction.WEST),
                new KeyValuePair<KeyCode, Direction>(KeyCode.D, Direction.EAST),
             });
-            //Debug.Log($"{CurrentDirection.Count()}");
             CurrentSpeed = CurrentDirection.Count() != 0 ? CurrentSpeed + (((MaxSpeed - CurrentSpeed) / 10) * Time.deltaTime) : ((CurrentSpeed - ((CurrentSpeed /  2)) * (Time.deltaTime * 10)));
             foreach (Direction direction in CurrentDirection) 
             {
@@ -51,7 +50,6 @@ namespace Assets.Scripts
                 {
                     var yAngle = objectCamera.transform.rotation.eulerAngles.y >= 180 ? objectCamera.transform.rotation.eulerAngles.y - 360 : objectCamera.transform.rotation.eulerAngles.y;
                     var cameraRotation = Quaternion.Euler(0, yAngle - (float)direction, 0);
-                    //Debug.Log($"current: {direction}");
                     MoveableObject.transform.rotation = Quaternion.Lerp(MoveableObject.gameObject.transform.rotation, cameraRotation, RotationSpeed * Time.deltaTime);
                 }
             }

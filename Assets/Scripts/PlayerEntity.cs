@@ -59,12 +59,11 @@ namespace Assets.Scripts
              Cursor.lockState = CursorLockMode.Locked;
              Cursor.visible = false;
              cameraPointer.ValidMoveablePoints = cameraPointer.GetValidPoints(this.gameObject, lineLength: 5, yAxis: 2).ToArray();
-             Debug.Log(cameraPointer.ValidMoveablePoints.Length);
              for (int i = 0; i < cameraPointer.ValidMoveablePoints.Length - 1; i++)
              {
                  Debug.DrawLine(cameraPointer.ValidMoveablePoints[i], cameraPointer.ValidMoveablePoints[i + 1], Color.red);
-                 //Debug.Log(cameraPointer.ValidMoveablePoints[i].ToString());
              }
+
             Vector3 difference = ViewCamera.gameObject.transform.position - cameraPointer.ValidMoveablePoints[pathIndexer];
             Vector3 stepPosition = -difference;
             if (((int)CalculateIndexer(xAxis) == lastIndexer && Mathf.Abs(stepPoint) < 1))
@@ -77,7 +76,6 @@ namespace Assets.Scripts
                 };
                 stepPosition = new Vector3(difference.x * (Math.Abs(mouseSensivity) * -1), -difference.y, difference.z * (Math.Abs(mouseSensivity) * -1));
                 stepPoint += mouseSensivity;
-                Debug.Log($"mouseSensivity: {mouseSensivity} point[0]: {pointIndexers[0]} point[1]: {pointIndexers[1]} stepPoint: {stepPoint} stepPosition: {stepPosition} pathIndexer: {pathIndexer}");
             }
             else 
             {
@@ -94,6 +92,6 @@ namespace Assets.Scripts
              ViewCamera.gameObject.transform.rotation = Quaternion.Lerp(cameraRotation, this.gameObject.transform.rotation, (1f * Time.deltaTime) * lastRotaionIndex);
              lastRotaionIndex = rotationIndex;
         }
-        public float CalculateIndexer(float value) => (Mathf.Abs(value) / value);
+        public static float CalculateIndexer(float value) => (Mathf.Abs(value) / value);
     }
 }
