@@ -3,10 +3,10 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    internal interface IKeyAction
+    internal interface IKeyAction<T>
     {
         public KeyCode Key { get; }
 
-        public IEnumerable<Vector3> ActionMoves();
+        public IEnumerable<T> ActionMoves();
     }
 }

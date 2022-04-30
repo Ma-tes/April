@@ -8,9 +8,9 @@ namespace Assets.Scripts
     {
         public override KeyCode Key => KeyCode.Space;
 
-        public sealed override IEnumerable<Vector3> ActionMoves()
+        public sealed override IEnumerable<CustomVector3> ActionMoves()
         {
-            IEnumerator<Vector3> enumerator = base.ActionMoves().GetEnumerator();
+            IEnumerator<CustomVector3> enumerator = base.ActionMoves().GetEnumerator();
             enumerator.MoveNext();
 
             var targetCollider = Target.GetComponent<Collider>();

@@ -60,13 +60,17 @@
     <Compile Include="Assets\Scripts\CameraPointer.cs" />
     <Compile Include="Assets\Scripts\IEntity.cs" />
     <Compile Include="Assets\Scripts\EntityManager.cs" />
+    <Compile Include="Assets\Scripts\SlideAction.cs" />
     <Compile Include="Assets\TypeSelecter.cs" />
     <Compile Include="Assets\Scripts\MovementHelper.cs" />
     <Compile Include="Assets\Scripts\ObjectAction.cs" />
     <Compile Include="Assets\Scripts\IKeyAction.cs" />
     <Compile Include="Assets\Scripts\JumpAction.cs" />
     <Compile Include="Assets\Scripts\PlayerEntity.cs" />
-    <Compile Include="Assets\Scripts\SlideAction.cs" />
+    <Compile Include="Assets\Scripts\VectorObjects\VectorCounter.cs" />
+    <Compile Include="Assets\Scripts\VectorObjects\CustomVector3.cs" />
+    <Compile Include="Assets\Scripts\VectorObjects\IVector.cs" />
+    <Compile Include="Assets\Scripts\VectorObjects\Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    internal abstract class ObjectAction : MonoBehaviour, IKeyAction
+    internal abstract class ObjectAction : MonoBehaviour, IKeyAction<CustomVector3>
     {
         [SerializeField]
         public GameObject Target;
@@ -21,9 +21,8 @@ namespace Assets.Scripts
 
         protected bool isVisible = true;
 
-        private Vector3[] moveSteps { get; set; } = new Vector3[0];
+        private VectorCounter<CustomVector3> vectorCounter = new VectorCounter<CustomVector3>() {Vectors = new CustomVector3[0]};
 
-        private uint indexer = 0;
 
         protected bool isCollide = false;
 
@@ -33,16 +32,17 @@ namespace Assets.Scripts
 
             if (Input.GetKeyDown(Key) && (Math.Abs(Difference.x) < offset.x) && (Math.Abs(Difference.z) < offset.z) && isCollide == false) 
             {
-                moveSteps = ActionMoves().ToArray();
-                indexer = 0;
+                vectorCounter.Vectors = (ActionMoves().ToArray());
+                vectorCounter.Indexer = 0;
             }
 
-            if (moveSteps.Count() > 0 && indexer < moveSteps.Count()) 
+            if (vectorCounter.Vectors.Length > 0 && vectorCounter.Indexer < vectorCounter.Vectors.Length) 
             {
-                var stepMove = moveSteps[indexer];
+                var stepMove = vectorCounter.Vectors[vectorCounter.Indexer];
+
                 Vector3 difference = Entity.transform.position - stepMove;
                 if ((int)difference.magnitude == 0)
-                    indexer++;
+                    vectorCounter.Indexer++;
                 else
                 {
                     var entityRigidBody = Entity.GetComponent<Rigidbody>();
@@ -54,7 +54,7 @@ namespace Assets.Scripts
             }
         }
 
-        public virtual IEnumerable<Vector3> ActionMoves() 
+        public virtual IEnumerable<CustomVector3> ActionMoves() 
         {
             isVisible = (Math.Abs(Difference.z) <= offset.z) && (Math.Abs(Difference.x) <= offset.x && Difference.y <= offset.y);
             yield break;

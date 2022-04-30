@@ -16,9 +16,9 @@ namespace Assets.Scripts
             base.Update();
         }
 
-        public override IEnumerable<Vector3> ActionMoves()
+        public override IEnumerable<CustomVector3> ActionMoves()
         {
-            IEnumerator<Vector3> enumerator = base.ActionMoves().GetEnumerator();
+            IEnumerator<CustomVector3> enumerator = base.ActionMoves().GetEnumerator();
             enumerator.MoveNext();
 
             var entityHeight = Entity.GetComponent<Collider>();
