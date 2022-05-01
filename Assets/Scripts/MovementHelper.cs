@@ -50,7 +50,9 @@ namespace Assets.Scripts
                 {
                     var yAngle = objectCamera.transform.rotation.eulerAngles.y >= 180 ? objectCamera.transform.rotation.eulerAngles.y - 360 : objectCamera.transform.rotation.eulerAngles.y;
                     var cameraRotation = Quaternion.Euler(0, yAngle - (float)direction, 0);
+                    float xAngle = MoveableObject.transform.rotation.eulerAngles.x;
                     MoveableObject.transform.rotation = Quaternion.Lerp(MoveableObject.gameObject.transform.rotation, cameraRotation, RotationSpeed * Time.deltaTime);
+                    MoveableObject.transform.rotation = Quaternion.Euler(xAngle, MoveableObject.transform.eulerAngles.y, MoveableObject.transform.eulerAngles.z);
                 }
             }
             MoveableObject.transform.position += MoveableObject.transform.forward * (CurrentSpeed * Time.deltaTime);

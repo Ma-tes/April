@@ -21,7 +21,7 @@ namespace Assets.Scripts
 
         protected bool isVisible = true;
 
-        private VectorCounter<CustomVector3> vectorCounter = new VectorCounter<CustomVector3>() {Vectors = new CustomVector3[0]};
+        protected VectorCounter<CustomVector3> vectorCounter = new VectorCounter<CustomVector3>() {Vectors = new CustomVector3[0]};
 
 
         protected bool isCollide = false;

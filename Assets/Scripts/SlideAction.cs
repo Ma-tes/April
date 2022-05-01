@@ -13,7 +13,15 @@ namespace Assets.Scripts
 
         public override void Update()
         {
+            var entityMovementComponent = Entity.GetComponent<MovementHelper>();
             base.Update();
+            if (vectorCounter.Indexer >= vectorCounter.Vectors.Length)
+            {
+                entityMovementComponent.enabled = true;
+                Entity.transform.rotation = Quaternion.Euler(0, Entity.transform.eulerAngles.y, Entity.transform.eulerAngles.z);
+            }
+            else
+                entityMovementComponent.enabled = false;
         }
 
         public override IEnumerable<CustomVector3> ActionMoves()
