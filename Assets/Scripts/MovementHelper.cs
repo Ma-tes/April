@@ -61,7 +61,7 @@ namespace Assets.Scripts
                 {
                     var yAngle = objectCamera.transform.rotation.eulerAngles.y >= 180 ? objectCamera.transform.rotation.eulerAngles.y - 360 : objectCamera.transform.rotation.eulerAngles.y;
                     var cameraRotation = Quaternion.Euler(0, yAngle - (float)direction, 0);
-                    Debug.Log($"cameraRotation: {cameraRotation}");
+                    //Debug.Log($"cameraRotation: {cameraRotation}");
                     float xAngle = entityRotation.eulerAngles.x;
                     entityRotation = Quaternion.Lerp(entityRotation, cameraRotation, RotationSpeed * Time.deltaTime);
                     entityRotation = Quaternion.Euler(xAngle, entityRotation.eulerAngles.y, entityRotation.eulerAngles.z);
@@ -71,7 +71,7 @@ namespace Assets.Scripts
                 }
             }
             entityRotation = entityRotate ? entityRotation : cameraQuaternion;
-            Debug.Log($"entityRotation: {entityRotation * Vector3.forward} forward: {MoveableObject.transform.forward}");
+            //Debug.Log($"entityRotation: {entityRotation * Vector3.forward} forward: {MoveableObject.transform.forward}");
             MoveableObject.transform.position += ((entityRotation * Vector3.forward)) * (CurrentSpeed * Time.deltaTime);
             lastDirection = CurrentDirection;
         }

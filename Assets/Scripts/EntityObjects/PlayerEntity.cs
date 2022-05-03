@@ -37,13 +37,15 @@ namespace Assets.Scripts
 
         private float lastRotaionIndex = 1;
 
-        private KeyCode lastKey { get; set; }
 
         private int lastIndexer { get; set; }
 
         private int pathIndexer { get; set; } = 0;
 
         private float stepPoint = 0;
+
+        private float xRotation { get; set; }
+        private float yRotation { get; set; }
 
         public void Start()
         {
@@ -54,18 +56,12 @@ namespace Assets.Scripts
 
         public void Update()
         {
-             if (Input.GetKeyDown(lastKey) == false) 
-             {
-             }
-
              var xAxis = Input.GetAxis("Mouse X");
+             var yAxis = Input.GetAxis("Mouse Y");
              Cursor.lockState = CursorLockMode.Locked;
              Cursor.visible = false;
+
              cameraPointer.ValidMoveablePoints = cameraPointer.GetValidPoints(this.gameObject, lineLength: 5, yAxis: 2).ToArray();
-             for (int i = 0; i < cameraPointer.ValidMoveablePoints.Length - 1; i++)
-             {
-                 Debug.DrawLine(cameraPointer.ValidMoveablePoints[i], cameraPointer.ValidMoveablePoints[i + 1], Color.red);
-             }
 
             Vector3 difference = ViewCamera.gameObject.transform.position - cameraPointer.ValidMoveablePoints[pathIndexer];
             Vector3 stepPosition = -difference;
@@ -91,16 +87,10 @@ namespace Assets.Scripts
                 ViewCamera.gameObject.transform.position = Vector3.MoveTowards(ViewCamera.gameObject.transform.position, ViewCamera.gameObject.transform.position + stepPosition, 1f);
              //Camera rotation
              var cameraRotation = Quaternion.LookRotation(this.gameObject.transform.position - ViewCamera.gameObject.transform.position);
-             float rotationIndex = (1f * Time.deltaTime);
-             ViewCamera.gameObject.transform.rotation = Quaternion.Lerp(cameraRotation, this.gameObject.transform.rotation, (1f * Time.deltaTime) * lastRotaionIndex);
-             lastRotaionIndex = rotationIndex;
+            ViewCamera.gameObject.transform.rotation = cameraRotation;
+
             if (Input.GetKey(KeyCode.Mouse1))
             {
-                if (ViewCamera.enabled) 
-                {
-                    var modifyRotation = Quaternion.Euler(Quaternion.identity.x, ViewCamera.gameObject.gameObject.transform.eulerAngles.y - DefaultObject.transform.position.x, ViewCamera.gameObject.transform.eulerAngles.z);
-                    this.gameObject.transform.rotation = modifyRotation;
-                }
                 ViewCamera.enabled = false;
                 movementHelper.entityRotate = false;
                 movementHelper.objectCamera = ZoomCamera;
@@ -111,6 +101,7 @@ namespace Assets.Scripts
                 movementHelper.entityRotate = true;
                 movementHelper.objectCamera = ViewCamera;
             }
+            Debug.Log(this.gameObject.transform.rotation);
         }
         public static float CalculateIndexer(float value) => (Mathf.Abs(value) / value);
     }

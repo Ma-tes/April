@@ -312,7 +312,7 @@ Transform:
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -1021,6 +1021,80 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0df3a0821421a448b84f2ed8f48253d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1251653359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1251653362}
+  - component: {fileID: 1251653360}
+  m_Layer: 0
+  m_Name: ZoomCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!20 &1251653360
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251653359}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &1251653362
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1251653359}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.86, y: 0.71000004, z: -1.7299999}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1814461932}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1456645614
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,14 +1138,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1456645614}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aaf279fe6f797234f887e8d19752580b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ae421f0afa804940b44d1f25fa9f46d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   weaponModel: {fileID: 1456645614}
-  streght: 10
+  streght: 0
   currentAnimation: []
   DemagePoint: {fileID: 1170659094}
-  MaxShootDistance: 60
+  MaxShootDistance: 20
 --- !u!65 &1456645617
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1243,6 +1317,7 @@ GameObject:
   - component: {fileID: 1814461929}
   - component: {fileID: 1814461928}
   - component: {fileID: 1814461933}
+  - component: {fileID: 1814461935}
   - component: {fileID: 1814461934}
   m_Layer: 0
   m_Name: Capsule
@@ -1265,6 +1340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Description: 
   ViewCamera: {fileID: 2067852793}
+  ZoomCamera: {fileID: 1251653360}
   DefaultObject: {fileID: 1814461927}
   movementHelper: {fileID: 1814461933}
 --- !u!136 &1814461929
@@ -1337,15 +1413,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1814461927}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.13, y: 0.99, z: 3.14}
+  m_LocalRotation: {x: -0.24777323, y: -0, z: -0, w: 0.96881807}
+  m_LocalPosition: {x: 1.13, y: 0.99, z: 3.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2143433223}
   - {fileID: 1456645615}
+  - {fileID: 1251653362}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: -28.692, y: 0, z: 0}
 --- !u!114 &1814461933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1382,6 +1459,25 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!114 &1814461935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814461927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd197e266e4264444870ac8690fee0d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimCamera: {fileID: 1251653360}
+  mainCamera: {fileID: 2067852793}
+  target: {fileID: 1814461927}
+  aimKey: 324
+  MouseSensivity:
+    xAxis: 1
+    yAxis: 1
 --- !u!1 &1821983141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1659,7 +1755,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 2.938, z: 0}
 --- !u!1 &2080142899
 GameObject:
