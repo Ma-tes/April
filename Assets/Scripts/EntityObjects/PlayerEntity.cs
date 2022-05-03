@@ -17,6 +17,9 @@ namespace Assets.Scripts
         public Camera ViewCamera;
 
         [SerializeField]
+        public Camera ZoomCamera;
+
+        [SerializeField]
         public GameObject DefaultObject;
 
         [SerializeField]
@@ -91,6 +94,23 @@ namespace Assets.Scripts
              float rotationIndex = (1f * Time.deltaTime);
              ViewCamera.gameObject.transform.rotation = Quaternion.Lerp(cameraRotation, this.gameObject.transform.rotation, (1f * Time.deltaTime) * lastRotaionIndex);
              lastRotaionIndex = rotationIndex;
+            if (Input.GetKey(KeyCode.Mouse1))
+            {
+                if (ViewCamera.enabled) 
+                {
+                    var modifyRotation = Quaternion.Euler(Quaternion.identity.x, ViewCamera.gameObject.gameObject.transform.eulerAngles.y - DefaultObject.transform.position.x, ViewCamera.gameObject.transform.eulerAngles.z);
+                    this.gameObject.transform.rotation = modifyRotation;
+                }
+                ViewCamera.enabled = false;
+                movementHelper.entityRotate = false;
+                movementHelper.objectCamera = ZoomCamera;
+            }
+            else 
+            {
+                ViewCamera.enabled = true;
+                movementHelper.entityRotate = true;
+                movementHelper.objectCamera = ViewCamera;
+            }
         }
         public static float CalculateIndexer(float value) => (Mathf.Abs(value) / value);
     }

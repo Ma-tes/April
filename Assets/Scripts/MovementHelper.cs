@@ -17,6 +17,8 @@ namespace Assets.Scripts
     {
         public GameObject MoveableObject { get; set; }
 
+        private GameObject CopyMoveableObject;
+
         public Camera objectCamera { get; set; }
 
         [SerializeField]
@@ -28,11 +30,18 @@ namespace Assets.Scripts
         [SerializeField]
         public float MaxSpeed;
 
+        public bool entityRotate { get; set; } = true;
+
         public List<AnimationSelecter<float, Animator>> Animations = new List<AnimationSelecter<float, Animator>>();
 
         public IEnumerable<Direction> CurrentDirection { get; set; }
 
         private IEnumerable<Direction> lastDirection { get; set; }
+
+        public void Start()
+        {
+            CopyMoveableObject = new GameObject();
+        }
 
         public void Update()
         {
@@ -44,18 +53,26 @@ namespace Assets.Scripts
                new KeyValuePair<KeyCode, Direction>(KeyCode.D, Direction.EAST),
             });
             CurrentSpeed = CurrentDirection.Count() != 0 ? CurrentSpeed + (((MaxSpeed - CurrentSpeed) / 10) * Time.deltaTime) : ((CurrentSpeed - ((CurrentSpeed /  2)) * (Time.deltaTime * 10)));
+            Quaternion entityRotation = MoveableObject.transform.rotation;
+            Quaternion cameraQuaternion = objectCamera.transform.rotation;
             foreach (Direction direction in CurrentDirection) 
             {
                 if (direction != Direction.NONE && CurrentDirection != lastDirection) //For now it's redudant
                 {
                     var yAngle = objectCamera.transform.rotation.eulerAngles.y >= 180 ? objectCamera.transform.rotation.eulerAngles.y - 360 : objectCamera.transform.rotation.eulerAngles.y;
                     var cameraRotation = Quaternion.Euler(0, yAngle - (float)direction, 0);
-                    float xAngle = MoveableObject.transform.rotation.eulerAngles.x;
-                    MoveableObject.transform.rotation = Quaternion.Lerp(MoveableObject.gameObject.transform.rotation, cameraRotation, RotationSpeed * Time.deltaTime);
-                    MoveableObject.transform.rotation = Quaternion.Euler(xAngle, MoveableObject.transform.eulerAngles.y, MoveableObject.transform.eulerAngles.z);
+                    Debug.Log($"cameraRotation: {cameraRotation}");
+                    float xAngle = entityRotation.eulerAngles.x;
+                    entityRotation = Quaternion.Lerp(entityRotation, cameraRotation, RotationSpeed * Time.deltaTime);
+                    entityRotation = Quaternion.Euler(xAngle, entityRotation.eulerAngles.y, entityRotation.eulerAngles.z);
+                    if (entityRotate)
+                        MoveableObject.transform.rotation = entityRotation;
+                    cameraQuaternion = cameraRotation;
                 }
             }
-            MoveableObject.transform.position += MoveableObject.transform.forward * (CurrentSpeed * Time.deltaTime);
+            entityRotation = entityRotate ? entityRotation : cameraQuaternion;
+            Debug.Log($"entityRotation: {entityRotation * Vector3.forward} forward: {MoveableObject.transform.forward}");
+            MoveableObject.transform.position += ((entityRotation * Vector3.forward)) * (CurrentSpeed * Time.deltaTime);
             lastDirection = CurrentDirection;
         }
 
