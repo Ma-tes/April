@@ -40,14 +40,14 @@ namespace Assets.Scripts
             {
                 var attackPoints = ActionMoves(currentAction);
                 var newDemagePoints = Instantiate(DemagePoint); //TODO: create better point system
-                newDemagePoints.vectorPoints.Vectors = new CustomVector3[attackPoints.Count()];
+                newDemagePoints.VectorPoints.Vectors = new CustomVector3[attackPoints.Count()];
                 newDemagePoints.GameObject = Instantiate(DemagePoint.GameObject);
                 newDemagePoints.GameObject.transform.position = WeaponModel.transform.position;
 
                 int i = 0;
                 foreach (var attactPoint in attackPoints) 
                 {
-                    newDemagePoints.vectorPoints.Vectors[i] = attactPoint;
+                    newDemagePoints.VectorPoints.Vectors[i] = attactPoint;
                     Debug.DrawLine(attactPoint, new Vector3(attactPoint.x, attactPoint.y + 1, attactPoint.z), Color.blue, 100);
                     Debug.Log(attactPoint);
                     i++;
