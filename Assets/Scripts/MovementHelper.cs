@@ -17,9 +17,7 @@ namespace Assets.Scripts
     {
         public GameObject MoveableObject { get; set; }
 
-        private GameObject CopyMoveableObject;
-
-        public Camera objectCamera { get; set; }
+        public Camera ObjectCamera { get; set; }
 
         [SerializeField]
         public float CurrentSpeed;
@@ -30,50 +28,45 @@ namespace Assets.Scripts
         [SerializeField]
         public float MaxSpeed;
 
-        public bool entityRotate { get; set; } = true;
+        public bool EntityRotate { get; set; } = true;
 
         public List<AnimationSelecter<float, Animator>> Animations = new List<AnimationSelecter<float, Animator>>();
 
-        public IEnumerable<Direction> CurrentDirection { get; set; }
+        public IEnumerable<Direction> CurrentDirections { get; set; }
 
-        private IEnumerable<Direction> lastDirection { get; set; }
-
-        public void Start()
-        {
-            CopyMoveableObject = new GameObject();
-        }
+        private IEnumerable<Direction> lastDirections { get; set; }
 
         public void Update()
         {
-            CurrentDirection = GetDirection(new KeyValuePair<KeyCode, Direction>[]
+            CurrentDirections = GetDirection(new KeyValuePair<KeyCode, Direction>[]
             {
                new KeyValuePair<KeyCode, Direction>(KeyCode.W, Direction.NORTH),
                new KeyValuePair<KeyCode, Direction>(KeyCode.S, Direction.SOUTH),
                new KeyValuePair<KeyCode, Direction>(KeyCode.A, Direction.WEST),
                new KeyValuePair<KeyCode, Direction>(KeyCode.D, Direction.EAST),
             });
-            CurrentSpeed = CurrentDirection.Count() != 0 ? CurrentSpeed + (((MaxSpeed - CurrentSpeed) / 10) * Time.deltaTime) : ((CurrentSpeed - ((CurrentSpeed /  2)) * (Time.deltaTime * 10)));
+            CurrentSpeed = CurrentDirections.Count() != 0 ? CurrentSpeed + (((MaxSpeed - CurrentSpeed) / 10) * Time.deltaTime) : ((CurrentSpeed - ((CurrentSpeed /  2)) * (Time.deltaTime * 10)));
             Quaternion entityRotation = MoveableObject.transform.rotation;
-            Quaternion cameraQuaternion = objectCamera.transform.rotation;
-            foreach (Direction direction in CurrentDirection) 
+            Quaternion cameraQuaternion = ObjectCamera.transform.rotation;
+
+            foreach (Direction direction in CurrentDirections) 
             {
-                if (direction != Direction.NONE && CurrentDirection != lastDirection) //For now it's redudant
+                if (direction != Direction.NONE && CurrentDirections != lastDirections) //For now it's redudant
                 {
-                    var yAngle = objectCamera.transform.rotation.eulerAngles.y >= 180 ? objectCamera.transform.rotation.eulerAngles.y - 360 : objectCamera.transform.rotation.eulerAngles.y;
+                    var yAngle = ObjectCamera.transform.rotation.eulerAngles.y >= 180 ? ObjectCamera.transform.rotation.eulerAngles.y - 360 : ObjectCamera.transform.rotation.eulerAngles.y;
                     var cameraRotation = Quaternion.Euler(0, yAngle - (float)direction, 0);
-                    //Debug.Log($"cameraRotation: {cameraRotation}");
                     float xAngle = entityRotation.eulerAngles.x;
                     entityRotation = Quaternion.Lerp(entityRotation, cameraRotation, RotationSpeed * Time.deltaTime);
                     entityRotation = Quaternion.Euler(xAngle, entityRotation.eulerAngles.y, entityRotation.eulerAngles.z);
-                    if (entityRotate)
+                    if (EntityRotate)
                         MoveableObject.transform.rotation = entityRotation;
                     cameraQuaternion = cameraRotation;
                 }
             }
-            entityRotation = entityRotate ? entityRotation : cameraQuaternion;
-            //Debug.Log($"entityRotation: {entityRotation * Vector3.forward} forward: {MoveableObject.transform.forward}");
+
+            entityRotation = EntityRotate ? entityRotation : cameraQuaternion;
             MoveableObject.transform.position += ((entityRotation * Vector3.forward)) * (CurrentSpeed * Time.deltaTime);
-            lastDirection = CurrentDirection;
+            lastDirections = CurrentDirections;
         }
 
         private IEnumerable<Direction> GetDirection(KeyValuePair<KeyCode, Direction>[] keyValues) 

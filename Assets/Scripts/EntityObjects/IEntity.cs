@@ -12,8 +12,7 @@ namespace Assets.Scripts
         public string Name { get; }
 
         public uint Health { get; set; }
-        public float Speed { get; set; }
 
-        public Vector3 Position { get; set; }
+        public float Speed { get; set; }
     }
 }

@@ -39,20 +39,19 @@ namespace Assets.Scripts
 
         private int holdIndex = 0;
 
-        public bool isActive => Input.GetKey(aimKey);
-
         private float lastRotationIndex = 1;
 
         public void Update()
         {
             GameObject objectTransform = mainCamera.gameObject;
-            if (isActive)
+            if (Input.GetKey(aimKey))
             {
                 InterpolateCamera(target, mainCamera);
 
                 XRotation = XRotation - (MouseSensivity.yAxis * Input.GetAxis("Mouse Y"));
-                YRotation = YRotation + (MouseSensivity.xAxis * Input.GetAxis("Mouse X"));
                 XRotation = Mathf.Clamp(XRotation, -80, 80);
+
+                YRotation = YRotation + (MouseSensivity.xAxis * Input.GetAxis("Mouse X"));
                 target.transform.rotation = Quaternion.Euler(XRotation, YRotation, target.transform.rotation.eulerAngles.z);
                 objectTransform = target;
                 Debug.Log(XRotation);
@@ -60,6 +59,7 @@ namespace Assets.Scripts
             }
             else
                 holdIndex = 0;
+
              objectTransform.transform.rotation = Quaternion.Lerp(objectTransform.transform.rotation, target.transform.rotation, (1f * Time.deltaTime) * lastRotationIndex);
              lastRotationIndex = Time.deltaTime;
         }

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -11,32 +8,24 @@ namespace Assets.Scripts
     {
 
         [SerializeField]
-        public string Description;
+        private string description;
 
         [SerializeField]
-        public Camera ViewCamera;
+        private Camera viewCamera;
 
         [SerializeField]
-        public Camera ZoomCamera;
+        private Camera zoomCamera;
 
         [SerializeField]
-        public GameObject DefaultObject;
+        private MovementHelper movementHelper;
 
-        [SerializeField]
-        public MovementHelper movementHelper;
+        private CameraPointer cameraPointer;
 
         public string Name { get; }
 
         public uint Health { get; set; }
 
-        public Vector3 Position { get; set; }
-
         public float Speed { get; set; } = 3.25f;
-
-        private CameraPointer cameraPointer;
-
-        private float lastRotaionIndex = 1;
-
 
         private int lastIndexer { get; set; }
 
@@ -44,35 +33,26 @@ namespace Assets.Scripts
 
         private float stepPoint = 0;
 
-        private float xRotation { get; set; }
-        private float yRotation { get; set; }
-
         public void Start()
         {
-            cameraPointer = new CameraPointer(ViewCamera, 0.5f);
+            cameraPointer = new CameraPointer(viewCamera, 0.5f);
             movementHelper.MoveableObject = this.gameObject;
-            movementHelper.objectCamera = ViewCamera;
+            movementHelper.ObjectCamera = viewCamera;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
         }
 
         public void Update()
         {
              var xAxis = Input.GetAxis("Mouse X");
-             var yAxis = Input.GetAxis("Mouse Y");
-             Cursor.lockState = CursorLockMode.Locked;
-             Cursor.visible = false;
-
              cameraPointer.ValidMoveablePoints = cameraPointer.GetValidPoints(this.gameObject, lineLength: 5, yAxis: 2).ToArray();
 
-            Vector3 difference = ViewCamera.gameObject.transform.position - cameraPointer.ValidMoveablePoints[pathIndexer];
+            Vector3 difference = viewCamera.gameObject.transform.position - cameraPointer.ValidMoveablePoints[pathIndexer];
             Vector3 stepPosition = -difference;
             if (((int)CalculateIndexer(xAxis) == lastIndexer && Mathf.Abs(stepPoint) < 1))
             {
                 float mouseSensivity = xAxis; //TODO: multiply by real mouse sensivity and virtual in once
-                int[] pointIndexers = new int[]
-                {
-                    (int)CalculateIndexer(cameraPointer.ValidMoveablePoints[pathIndexer].x),
-                    (int)CalculateIndexer(cameraPointer.ValidMoveablePoints[pathIndexer].z),
-                };
                 stepPosition = new Vector3(difference.x * (Math.Abs(mouseSensivity) * -1), -difference.y, difference.z * (Math.Abs(mouseSensivity) * -1));
                 stepPoint += mouseSensivity;
             }
@@ -84,25 +64,26 @@ namespace Assets.Scripts
                 stepPoint = 0;
                 lastIndexer = (int)pointer;
             }
-                ViewCamera.gameObject.transform.position = Vector3.MoveTowards(ViewCamera.gameObject.transform.position, ViewCamera.gameObject.transform.position + stepPosition, 1f);
-             //Camera rotation
-             var cameraRotation = Quaternion.LookRotation(this.gameObject.transform.position - ViewCamera.gameObject.transform.position);
-            ViewCamera.gameObject.transform.rotation = cameraRotation;
+                viewCamera.gameObject.transform.position = Vector3.MoveTowards(viewCamera.gameObject.transform.position, viewCamera.gameObject.transform.position + stepPosition, 1f);
+
+             var cameraRotation = Quaternion.LookRotation(this.gameObject.transform.position - viewCamera.gameObject.transform.position);
+            viewCamera.gameObject.transform.rotation = cameraRotation;
 
             if (Input.GetKey(KeyCode.Mouse1))
             {
-                ViewCamera.enabled = false;
-                movementHelper.entityRotate = false;
-                movementHelper.objectCamera = ZoomCamera;
+                viewCamera.enabled = false;
+                movementHelper.EntityRotate = false;
+                movementHelper.ObjectCamera = zoomCamera;
             }
             else 
             {
-                ViewCamera.enabled = true;
-                movementHelper.entityRotate = true;
-                movementHelper.objectCamera = ViewCamera;
+                viewCamera.enabled = true;
+                movementHelper.EntityRotate = true;
+                movementHelper.ObjectCamera = viewCamera;
             }
             Debug.Log(this.gameObject.transform.rotation);
         }
+
         public static float CalculateIndexer(float value) => (Mathf.Abs(value) / value);
     }
 }

@@ -14,7 +14,7 @@ namespace Assets.Scripts
 
         public uint Demage { get; set; } = 0;
 
-        public VectorCounter<CustomVector3> vectorPoints = new VectorCounter<CustomVector3>() { Vectors = new CustomVector3[]{ new CustomVector3() {x = 0, y = 0, z = 0 } }, Indexer = 0 };
+        private VectorCounter<CustomVector3> vectorPoints = new VectorCounter<CustomVector3>() { Vectors = new CustomVector3[]{ new CustomVector3() {x = 0, y = 0, z = 0 } }, Indexer = 0 };
 
         public void Update()
         {
