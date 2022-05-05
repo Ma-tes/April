@@ -13,7 +13,7 @@ namespace Assets.Scripts
     {
         public GameObject WeaponModel { get; } 
 
-        public uint Streght { get; }
+        public uint Stregth { get; }
 
         public AnimationSelecter<WeaponAction, Animator>[] CurrentAnimation { get; } // This would be an Animator
     }

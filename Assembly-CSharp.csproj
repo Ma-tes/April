@@ -60,6 +60,7 @@
     <Compile Include="Assets\Scripts\AnimationSelecter.cs" />
     <Compile Include="Assets\Scripts\Weapons\StandardWeapon.cs" />
     <Compile Include="Assets\Scripts\CameraPointer.cs" />
+    <Compile Include="Assets\Scripts\AimCamera.cs" />
     <Compile Include="Assets\Scripts\KeyActions\ObjectAction.cs" />
     <Compile Include="Assets\Scripts\KeyActions\IKeyAction.cs" />
     <Compile Include="Assets\TypeSelecter.cs" />
@@ -76,7 +77,7 @@
     <Compile Include="Assets\Scripts\VectorObjects\VectorCounter.cs" />
     <Compile Include="Assets\Scripts\Weapons\PrimaryWeapon.cs" />
     <Compile Include="Assets\Scripts\EntityObjects\PlayerEntity.cs" />
-    <Compile Include="Assets\Scripts\AimCamera.cs" />
+    <Compile Include="Assets\Scripts\MeeleeWeapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

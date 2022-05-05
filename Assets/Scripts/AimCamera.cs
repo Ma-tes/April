@@ -54,7 +54,7 @@ namespace Assets.Scripts
                 YRotation = YRotation + (MouseSensivity.xAxis * Input.GetAxis("Mouse X"));
                 target.transform.rotation = Quaternion.Euler(XRotation, YRotation, target.transform.rotation.eulerAngles.z);
                 objectTransform = target;
-                Debug.Log(XRotation);
+                //Debug.Log(XRotation);
                 holdIndex++;
             }
             else

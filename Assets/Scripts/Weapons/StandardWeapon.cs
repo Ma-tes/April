@@ -11,7 +11,7 @@ namespace Assets.Scripts
     {
         public GameObject WeaponModel => weaponModel;
 
-        public uint Streght => streght;
+        public uint Stregth => stregth;
 
         public AnimationSelecter<WeaponAction, Animator>[] CurrentAnimation => currentAnimation;
     }
@@ -21,7 +21,7 @@ namespace Assets.Scripts
         private GameObject weaponModel;
 
         [SerializeField]
-        private uint streght;
+        private uint stregth;
 
         [SerializeField]
         private AnimationSelecter<WeaponAction, Animator>[] currentAnimation;
