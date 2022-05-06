@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
-    internal sealed class MeeleeWeapon : StandardWeapon
+    internal sealed class MeleeWeapon : StandardWeapon
     {
         [Range(0, 100)]
         [SerializeField]
@@ -24,14 +20,12 @@ namespace Assets.Scripts
         {
             if (action == WeaponAction.attack) 
             {
-                int amount = 10;
                 for (int i = -(int)range; i < (int)range; i++)
                 {
                     float curveValue = CalculateCurve(i, range);
                     var currentPoint = WeaponModel.transform.position + (WeaponModel.transform.forward * curveValue);
                     currentPoint = currentPoint + (WeaponModel.transform.right * i);
                     currentPoint.y = 0;
-                    Debug.Log($"weaponForward: {WeaponModel.transform.forward}");
                     yield return currentPoint;
                 }
             }

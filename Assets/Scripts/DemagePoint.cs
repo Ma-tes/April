@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts
 {
-    internal sealed class DemagePoint : MonoBehaviour
+    internal sealed class DamagePoint : MonoBehaviour
     {
         [SerializeField]
         public GameObject GameObject;
 
-        public uint Demage { get; set; } = 0;
+        public uint Damage { get; set; } = 0;
 
         public VectorCounter<CustomVector3> VectorPoints = new VectorCounter<CustomVector3>() { Vectors = new CustomVector3[]{ new CustomVector3() {x = 0, y = 0, z = 0 } }, Indexer = 0 };
 
@@ -34,7 +29,7 @@ namespace Assets.Scripts
         {
             var @objectComponent = collision.gameObject.GetComponent<IEntity>();
             if (@objectComponent != null)
-                objectComponent.Health -= Demage;
+                objectComponent.Health -= Damage;
         }
     }
 }
