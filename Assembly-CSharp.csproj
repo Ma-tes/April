@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{9F5B1D9A-EA07-253B-8161-6C3C228418A5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -60,25 +59,25 @@
     <Compile Include="Assets\Scripts\VectorObjects\CustomVector3.cs" />
     <Compile Include="Assets\Scripts\AnimationSelecter.cs" />
     <Compile Include="Assets\Scripts\Weapons\StandardWeapon.cs" />
-    <Compile Include="Assets\Scripts\CameraPointer.cs" />
-    <Compile Include="Assets\Scripts\AimCamera.cs" />
+    <Compile Include="Assets\Scripts\CameraComponents\CameraPointer.cs" />
+    <Compile Include="Assets\Scripts\CameraComponents\AimCamera.cs" />
     <Compile Include="Assets\Scripts\KeyActions\ObjectAction.cs" />
     <Compile Include="Assets\Scripts\KeyActions\IKeyAction.cs" />
     <Compile Include="Assets\TypeSelecter.cs" />
     <Compile Include="Assets\Scripts\KeyActions\SlideAction.cs" />
     <Compile Include="Assets\Scripts\VectorObjects\IVector.cs" />
+    <Compile Include="Assets\Scripts\Weapons\MeleeWeapon.cs" />
     <Compile Include="Assets\Scripts\MovementHelper.cs" />
     <Compile Include="Assets\Scripts\Weapons\IWeapon.cs" />
     <Compile Include="Assets\Scripts\EntityObjects\IEntity.cs" />
     <Compile Include="Assets\Scripts\KeyActions\IKeysAction.cs" />
-    <Compile Include="Assets\Scripts\DamagePoint.cs" />
+    <Compile Include="Assets\Scripts\Weapons\DamagePoint.cs" />
     <Compile Include="Assets\Scripts\KeyActions\JumpAction.cs" />
     <Compile Include="Assets\Scripts\EntityObjects\EntityManager.cs" />
     <Compile Include="Assets\Scripts\VectorObjects\Vector.cs" />
     <Compile Include="Assets\Scripts\VectorObjects\VectorCounter.cs" />
     <Compile Include="Assets\Scripts\Weapons\PrimaryWeapon.cs" />
     <Compile Include="Assets\Scripts\EntityObjects\PlayerEntity.cs" />
-    <Compile Include="Assets\Scripts\MeleeWeapon.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
