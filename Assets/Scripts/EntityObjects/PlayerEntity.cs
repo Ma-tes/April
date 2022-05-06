@@ -81,7 +81,6 @@ namespace Assets.Scripts
                 movementHelper.EntityRotate = true;
                 movementHelper.ObjectCamera = viewCamera;
             }
-            //Debug.Log(this.gameObject.transform.rotation);
         }
 
         public static float CalculateIndexer(float value) => (Mathf.Abs(value) / value);

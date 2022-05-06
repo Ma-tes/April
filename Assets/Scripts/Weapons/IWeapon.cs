@@ -15,6 +15,6 @@ namespace Assets.Scripts
 
         public uint Stregth { get; }
 
-        public AnimationSelecter<WeaponAction, Animator>[] CurrentAnimation { get; } // This would be an Animator
+        public AnimationSelecter<WeaponAction, AnimationClip>[] CurrentAnimation { get; } // This would be an Animator
     }
 }

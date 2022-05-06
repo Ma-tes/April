@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -54,7 +50,6 @@ namespace Assets.Scripts
                 YRotation = YRotation + (MouseSensivity.xAxis * Input.GetAxis("Mouse X"));
                 target.transform.rotation = Quaternion.Euler(XRotation, YRotation, target.transform.rotation.eulerAngles.z);
                 objectTransform = target;
-                //Debug.Log(XRotation);
                 holdIndex++;
             }
             else
