@@ -58,7 +58,7 @@ namespace Assets.Scripts
 
             CurrentSpeed = CurrentDirections.Count() != 0 ? CurrentSpeed + (((MaxSpeed - CurrentSpeed) / 10) * Time.deltaTime) : ((CurrentSpeed - ((CurrentSpeed /  2)) * (Time.deltaTime * 10)));
             var movementType = CurrentSpeed > 4 ? MovementType.SPRINT : MovementType.WALK;
-            Debug.Log(movementType);
+            //Debug.Log(movementType);
 
             Quaternion entityRotation = MoveableObject.transform.rotation;
             Quaternion cameraQuaternion = ObjectCamera.transform.rotation;
