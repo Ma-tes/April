@@ -13,6 +13,10 @@ namespace Assets.Scripts
         [SerializeField]
         public GameObject Entity;
 
+        [SerializeField]
+        private AnimationClip animationClip;
+
+
         public abstract KeyCode Key { get; }
 
         protected Vector3 Difference { get; set; }
@@ -32,6 +36,11 @@ namespace Assets.Scripts
 
             if (Input.GetKeyDown(Key) && (Math.Abs(Difference.x) < offset.x) && (Math.Abs(Difference.z) < offset.z) && isCollide == false) 
             {
+                if (animationClip != null) 
+                {
+                    animationClip.legacy = true;
+                    AnimationSelecter.PlayAnimationClip(Entity, animationClip, WrapMode.Once);
+                }
                 vectorCounter.Vectors = (ActionMoves().ToArray());
                 vectorCounter.Indexer = 0;
             }

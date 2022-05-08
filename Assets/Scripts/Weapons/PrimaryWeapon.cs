@@ -37,7 +37,8 @@ namespace Assets.Scripts
             if (action == WeaponAction.attack)
             {
                 bulletsManager = bulletsManager - 1;
-                foreach (var point in GetRelativePoints(WeaponModel.transform.forward, (int)MaxShootDistance, 1)) { yield return WeaponModel.transform.position + point; }
+                var scaledTransform = new Vector3(WeaponModel.transform.position.x, WeaponModel.transform.position.y, WeaponModel.transform.position.z);
+                foreach (var point in GetRelativePoints(WeaponModel.transform.forward, (int)MaxShootDistance, 1)) { yield return (scaledTransform) + point; }
             }
         }
 

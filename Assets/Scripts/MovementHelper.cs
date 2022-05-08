@@ -70,9 +70,9 @@ namespace Assets.Scripts
 
                     if (movementType != lastMovementType) 
                     {
-                        AnimationClip animationClip = AnimationSelecter<MovementType, AnimationClip>.GetAnimationOutput(Animations, movementType);
-                        animationClip.legacy = true;
-                        AnimationSelecter.PlayAnimationClip(MoveableObject, animationClip, WrapMode.PingPong);
+                        var animationClip = AnimationSelecter<MovementType, AnimationClip>.GetCurrentAnimation(Animations, movementType);
+                        animationClip.Output.legacy = true;
+                        AnimationSelecter.PlayAnimationClip(animationClip.Entity, animationClip.Output, WrapMode.PingPong);
                     }
 
                     var yAngle = ObjectCamera.transform.rotation.eulerAngles.y >= 180 ? ObjectCamera.transform.rotation.eulerAngles.y - 360 : ObjectCamera.transform.rotation.eulerAngles.y;

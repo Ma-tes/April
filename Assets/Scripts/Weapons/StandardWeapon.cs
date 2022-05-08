@@ -37,9 +37,9 @@ namespace Assets.Scripts
             {
                 if (CurrentAnimation.Length != 0) 
                 {
-                    var currentAnimation = AnimationSelecter<WeaponAction, AnimationClip>.GetAnimationOutput(CurrentAnimation, currentAction);
-                    currentAnimation.legacy = true;
-                    AnimationSelecter.PlayAnimationClip(weaponModel,currentAnimation);
+                    var currentAnimation = AnimationSelecter<WeaponAction, AnimationClip>.GetCurrentAnimation(CurrentAnimation, currentAction);
+                    currentAnimation.Output.legacy = true;
+                    AnimationSelecter.PlayAnimationClip(currentAnimation.Entity, currentAnimation.Output);
                 }
 
                 var attackPoints = ActionMoves(currentAction);
